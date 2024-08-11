@@ -1,0 +1,22 @@
+meta {
+  name: Admin Login
+  type: http
+  seq: 1
+}
+
+post {
+  url: 127.0.0.1:8000/admin/login
+  body: json
+  auth: none
+}
+
+headers {
+  X-CSRF-TOKEN: sJDELPd8DXlHQ3bFZghaTSAFMhpZ33OK0PR5xqKX
+}
+
+body:json {
+  {
+    "email": "johndoe@email.com",
+    "password": "johndoe"
+  }
+}

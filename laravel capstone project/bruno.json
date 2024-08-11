@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "laravel capstone project",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
