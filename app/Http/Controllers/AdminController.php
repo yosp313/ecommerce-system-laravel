@@ -23,8 +23,11 @@ class AdminController extends Controller
             ], 401);
         }
 
+        $user = Auth::user();
+
         return response()->json([
             'message' => 'User logged in',
+            'user' => $user
         ], 200);
     }
 
