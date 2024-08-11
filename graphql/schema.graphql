@@ -7,6 +7,18 @@ type Category{
     id: ID!
     name: String!
     description: String!
+
     subCategories: [Category] @hasMany
+    products: [Product] @hasMany
 }
 
+type Product{
+    id: ID!
+    name: String!
+    description: String!
+    price: Float!
+    stock: Int!
+    image_url: String
+
+    category: Category @belongsTo
+}
