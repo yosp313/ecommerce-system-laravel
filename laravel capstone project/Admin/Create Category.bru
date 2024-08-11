@@ -1,0 +1,19 @@
+meta {
+  name: Create Category
+  type: http
+  seq: 3
+}
+
+post {
+  url: 127.0.0.1:8000/api/v1/admin/categories
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Soda",
+    "description": "Fizzy ice cold drinks for hydration",
+    "parent_id": 1
+  }
+}
