@@ -17,25 +17,23 @@ class AdminController extends Controller
             'password' => 'required|string|min:6'
         ]);
 
-        $user = User::where('email', $validatedData['email'])->first();
-
-        if(!$user->is_admin){
+        if(!Auth::attempt(['email' => $validatedData['email'], 'password' => $validatedData['password'], 'is_admin' => 1])){
             return response()->json([
-                'message' => 'Unauthorized'
+                'message' => 'Invalid credentials or you are not an admin'
             ], 401);
         }
-
-        if(!$user || !Hash::check($validatedData['password'], $user->password)){
-            return response()->json([
-                'message' => 'Invalid email or password'
-            ], 401);
-        }
-
-        request()->session()->regenerate();
 
         return response()->json([
-            'message' => 'Login successful'
-        ]);
+            'message' => 'User logged in',
+        ], 200);
+    }
+
+    public function logout(Request $request) : JsonResponse{
+        //logout the user
+        Auth::logout();
+        return response()->json([
+            'message' => 'User logged out'
+        ], 200);
     }
 
 }
