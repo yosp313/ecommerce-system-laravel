@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminSessionController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Middleware\AdminAuthMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Session\Middleware\StartSession;
@@ -21,4 +22,5 @@ Route::middleware([StartSession::class, AdminAuthMiddleware::class])->prefix("v1
     Route::post('/login', [AdminSessionController::class, 'login'])->withoutMiddleware([AdminAuthMiddleware::class]);
     Route::get('/logout', [AdminSessionController::class, 'logout']);
     Route::post('/categories', [CategoryController::class, "store"]);
+    Route::post("/products", [ProductController::class, "store"]);
 });

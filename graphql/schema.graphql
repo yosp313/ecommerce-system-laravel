@@ -8,6 +8,5 @@ type Category{
     name: String!
     description: String!
     subCategories: [Category] @hasMany
-    "add product to category"
 }
 
