@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminSessionController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Middleware\AdminAuthMiddleware;
 use Illuminate\Http\Request;
@@ -18,7 +18,7 @@ Route::get("/csrf", function(){
 
 //add a v1/admin prefix to all the routes
 Route::middleware([StartSession::class, AdminAuthMiddleware::class])->prefix("v1/admin")->group(function(){
-    Route::post('/login', [AdminController::class, 'login'])->withoutMiddleware([AdminAuthMiddleware::class]);
-    Route::get('/logout', [AdminController::class, 'logout']);
+    Route::post('/login', [AdminSessionController::class, 'login'])->withoutMiddleware([AdminAuthMiddleware::class]);
+    Route::get('/logout', [AdminSessionController::class, 'logout']);
     Route::post('/categories', [CategoryController::class, "store"]);
 });

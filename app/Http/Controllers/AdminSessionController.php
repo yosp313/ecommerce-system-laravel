@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class AdminController extends Controller
+class AdminSessionController extends Controller
 {
     //
     public function login(Request $request) : JsonResponse{
