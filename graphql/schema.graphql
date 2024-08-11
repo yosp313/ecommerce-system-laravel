@@ -1,0 +1,13 @@
+type Query{
+    categories: [Category!]! @all
+    category(id: ID! @eq): Category @find
+}
+
+type Category{
+    id: ID!
+    name: String!
+    description: String!
+    subCategories: [Category] @hasMany
+    "add product to category"
+}
+
