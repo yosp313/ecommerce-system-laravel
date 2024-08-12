@@ -16,8 +16,16 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
+        $categories = \App\Models\Category::all();
         return [
             //
+            //
+            "name" => $this->faker->name,
+            "description" => $this->faker->text,
+            "price" => $this->faker->randomFloat(2, 1, 100),
+            "category_id" => $categories->random()->id,
+            "stock" => $this->faker->randomNumber(2),
+            "image_url" => "https://via.placeholder.com/150",
         ];
     }
 }

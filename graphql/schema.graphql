@@ -1,6 +1,12 @@
 type Query{
     categories: [Category!]! @all
     category(id: ID! @eq): Category @find
+    products(
+        search: String
+        ,category_id: ID
+        ,sort_order: String
+        ,first: Int
+    ): ProductPaginator! @field(resolver: "App\\GraphQL\\Queries\\ProductsResolver")
 }
 
 type Category{
@@ -19,6 +25,20 @@ type Product{
     price: Float!
     stock: Int!
     image_url: String
+    created_at: String
 
     category: Category @belongsTo
 }
+
+type ProductPaginator{
+    data: [Product!]!
+    paginatorInfo: SimplePaginatorInfo
+}
+
+type SimplePaginatorInfo{
+    currentPage: Int!
+    lastPage: Int!
+    perPage: Int!
+    total: Int!
+}
+
