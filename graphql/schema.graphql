@@ -9,6 +9,21 @@ type Query{
     ): ProductPaginator! @field(resolver: "App\\GraphQL\\Queries\\ProductsResolver")
 }
 
+# add middleware web to get the user from the session
+type Mutation{
+    registerUser(
+        name: String! @rules(apply: ["required", "string", "max:255"])
+        ,email: String! @rules(apply: ["required", "email", "max:255", "unique:users,email"])
+        ,password: String! @rules(apply: ["required", "string", "min:8", "confirmed", "App\\Rules\\PasswordComplexity"])
+        ,password_confirmation: String!
+    ): User @field(resolver: "App\\GraphQL\\Mutations\\RegisterUser")
+
+    addToCart(
+        product_id: ID! @rules(apply: ["required", "exists:products,id"])
+        ,quantity: Int! @rules(apply: ["required", "integer", "min:1"])
+    ): CartItem @field(resolver: "App\\GraphQL\\Mutations\\AddToCart")
+}
+
 type Category{
     id: ID!
     name: String!
@@ -17,6 +32,7 @@ type Category{
     subCategories: [Category] @hasMany
     products: [Product] @hasMany
 }
+
 
 type Product{
     id: ID!
@@ -28,6 +44,25 @@ type Product{
     created_at: String
 
     category: Category @belongsTo
+}
+
+type User{
+    id: ID!
+    name: String!
+    email: String!
+    email_verified_at: String
+    created_at: String
+}
+
+type CartItem{
+    id: ID!
+    product_id: ID!
+    quantity: Int!
+    total: Float!
+    created_at: String
+
+    product: Product! @belongsTo
+    user: User! @belongsTo
 }
 
 type ProductPaginator{
