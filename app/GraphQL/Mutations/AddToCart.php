@@ -37,10 +37,6 @@ final readonly class AddToCart
             $cartItem->save();
         }
 
-        return [
-            'status' => 'success',
-            'message' => 'Product added to cart',
-            'cartItem' => $cartItem
-        ];
+        return $cartItem;
     }
 }

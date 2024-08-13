@@ -16,12 +16,12 @@ type Mutation{
         ,email: String! @rules(apply: ["required", "email", "max:255", "unique:users,email"])
         ,password: String! @rules(apply: ["required", "string", "min:8", "confirmed", "App\\Rules\\PasswordComplexity"])
         ,password_confirmation: String!
-    ): User @field(resolver: "App\\GraphQL\\Mutations\\RegisterUser")
+    ): UserPayload! @field(resolver: "App\\GraphQL\\Mutations\\RegisterUser")
 
     addToCart(
         product_id: ID! @rules(apply: ["required", "exists:products,id"])
         ,quantity: Int! @rules(apply: ["required", "integer", "min:1"])
-    ): CartItem @field(resolver: "App\\GraphQL\\Mutations\\AddToCart")
+    ): CartItem @field(resolver: "App\\GraphQL\\Mutations\\AddToCart") @guard
 }
 
 type Category{
@@ -77,3 +77,7 @@ type SimplePaginatorInfo{
     total: Int!
 }
 
+type UserPayload{
+    user: User!
+    token: String!
+}

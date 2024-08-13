@@ -28,11 +28,13 @@ final readonly class RegisterUser
             'password' => Hash::make($args['password']),
         ]);
 
-        // Auth::login($user);
+        Auth::login($user);
 
 
         // $user->sendEmailVerificationNotification();
 
-        return $user;
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return ["user" => $user, "token" => $token];
     }
 }
