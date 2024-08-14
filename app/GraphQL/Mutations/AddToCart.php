@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Mutations;
 
+use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -16,27 +17,36 @@ final readonly class AddToCart
         $product = Product::find($args['product_id']);
 
         if($product->stock < $args['quantity']){
-            return [
-                'status' => 'error',
-                'message' => 'Product out of stock'
-            ];
+            throw new \Exception('Not enough stock');
         }
 
-        $cartItem = CartItem::where("user_id", Auth::id())->where("product_id", $product->id)->first();
+        $cart = Cart::firstOrCreate([
+            'user_id' => Auth::id()
+        ]);
+
+        $cartItem = CartItem::where('product_id', $product->id)
+            ->where('cart_id', $cart->id)
+            ->first();
 
         if($cartItem){
             $cartItem->quantity += $args['quantity'];
             $cartItem->total = $cartItem->quantity * $product->price;
-            $cartItem->save();
-        } else{
-            $cartItem = new CartItem();
-            $cartItem->user_id = Auth::id();
-            $cartItem->product_id = $product->id;
-            $cartItem->quantity = $args['quantity'];
-            $cartItem->total = $args['quantity'] * $product->price;
-            $cartItem->save();
+        }else{
+            $cartItem = new CartItem([
+                'cart_id' => $cart->id,
+                'product_id' => $product->id,
+                'quantity' => $args['quantity'],
+                'total' => $args['quantity'] * $product->price
+            ]);
         }
+        $cartItem->save();
 
-        return $cartItem;
+        $cart->total += $cart->items->sum('total');
+        $cart->save();
+
+        $product->stock -= $args['quantity'];
+        $product->save();
+
+        return $cart;
     }
 }

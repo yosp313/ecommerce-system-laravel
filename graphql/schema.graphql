@@ -21,7 +21,7 @@ type Mutation{
     addToCart(
         product_id: ID! @rules(apply: ["required", "exists:products,id"])
         ,quantity: Int! @rules(apply: ["required", "integer", "min:1"])
-    ): CartItem @field(resolver: "App\\GraphQL\\Mutations\\AddToCart") @guard
+    ): ShoppingCart @field(resolver: "App\\GraphQL\\Mutations\\AddToCart") @guard
 }
 
 type Category{
@@ -54,15 +54,27 @@ type User{
     created_at: String
 }
 
+type ShoppingCart{
+    id: ID!
+    user_id: ID!
+    total: Float!
+    created_at: String
+    updated_at: String
+
+    items: [CartItem] @hasMany
+    user: User @belongsTo
+}
+
 type CartItem{
     id: ID!
+    cart_id: ID!
     product_id: ID!
     quantity: Int!
     total: Float!
     created_at: String
+    updated_at: String
 
-    product: Product! @belongsTo
-    user: User! @belongsTo
+    product: Product @belongsTo
 }
 
 type ProductPaginator{
