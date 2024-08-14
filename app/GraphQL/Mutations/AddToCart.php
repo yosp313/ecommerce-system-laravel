@@ -44,9 +44,6 @@ final readonly class AddToCart
         $cart->total += $cart->items->sum('total');
         $cart->save();
 
-        $product->stock -= $args['quantity'];
-        $product->save();
-
         return $cart;
     }
 }
