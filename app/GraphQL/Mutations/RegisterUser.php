@@ -31,7 +31,7 @@ final readonly class RegisterUser
         Auth::login($user);
 
 
-        // $user->sendEmailVerificationNotification();
+        $user->sendEmailVerificationNotification();
 
         $token = $user->createToken('auth_token')->plainTextToken;
 

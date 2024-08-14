@@ -22,6 +22,18 @@ type Mutation{
         product_id: ID! @rules(apply: ["required", "exists:products,id"])
         ,quantity: Int! @rules(apply: ["required", "integer", "min:1"])
     ): ShoppingCart @field(resolver: "App\\GraphQL\\Mutations\\AddToCart") @guard
+
+    addAddress(
+        label: String! @rules(apply: ["required", "string", "max:255"])
+        ,name: String! @rules(apply: ["required", "string", "max:255"])
+        ,address_line1: String! @rules(apply: ["required", "string", "max:255"])
+        ,address_line2: String
+        ,city: String! @rules(apply: ["required", "string", "max:255"])
+        ,state: String! @rules(apply: ["required", "string", "max:255"])
+        ,country: String! @rules(apply: ["required", "string", "max:255"])
+        ,postal_code: String! @rules(apply: ["required", "string", "max:255"])
+        ,phone_number: String! @rules(apply: ["required", "string", "max:255"])
+    ): Address @field(resolver: "App\\GraphQL\\Mutations\\AddAddress") @guard
 }
 
 type Category{
@@ -75,6 +87,24 @@ type CartItem{
     updated_at: String
 
     product: Product @belongsTo
+}
+
+type Address{
+    id: ID!
+    user_id: ID!
+    label: String!
+    name: String!
+    address_line1: String!
+    address_line2: String
+    city: String!
+    state: String!
+    postal_code: String!
+    country: String!
+    phone_number: String!
+    created_at: String
+    updated_at: String
+
+    user: User @belongsTo
 }
 
 type ProductPaginator{
