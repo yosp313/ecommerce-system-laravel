@@ -12,7 +12,7 @@ class PaymentMethod extends Model
     protected $fillable = [
         'user_id',
         'type',
-        'card_number',
+        'last_four',
     ];
 
     public function user()

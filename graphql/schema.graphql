@@ -7,6 +7,12 @@ type Query{
         ,sort_order: String
         ,first: Int
     ): ProductPaginator! @field(resolver: "App\\GraphQL\\Queries\\ProductsResolver")
+
+    orders(
+        status: String,
+        first: Int,
+        sort: String,
+    ): [Order!]! @field(resolver: "App\\GraphQL\\Queries\\OrdersResolver") @guard
 }
 
 # add middleware web to get the user from the session
