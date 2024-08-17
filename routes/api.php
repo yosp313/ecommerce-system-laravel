@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminSessionController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Middleware\AdminAuthMiddleware;
 use App\Models\User;
@@ -27,6 +28,7 @@ Route::middleware([StartSession::class, AdminAuthMiddleware::class])->prefix("v1
     Route::get('/logout', [AdminSessionController::class, 'logout']);
     Route::post('/categories', [CategoryController::class, "store"]);
     Route::post("/products", [ProductController::class, "store"]);
+    Route::get("/orders", [OrderController::class, "index"]);
 });
 
 Route::get("v1/users/verify-email", function(EmailVerificationRequest $request){
