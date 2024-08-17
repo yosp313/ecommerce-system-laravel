@@ -34,6 +34,12 @@ type Mutation{
         ,postal_code: String! @rules(apply: ["required", "string", "max:255"])
         ,phone_number: String! @rules(apply: ["required", "string", "max:255"])
     ): Address @field(resolver: "App\\GraphQL\\Mutations\\AddAddress") @guard
+
+    createOrder(
+        address_id: ID! @rules(apply: ["required", "exists:addresses,id"]),
+        payment_method_id: ID! @rules(apply: ["required"]),
+        cart_id: ID! @rules(apply: ["required", "exists:carts,id"])
+    ): Order @field(resolver: "App\\GraphQL\\Mutations\\CreateOrder") @guard
 }
 
 type Category{
@@ -122,4 +128,31 @@ type SimplePaginatorInfo{
 type UserPayload{
     user: User!
     token: String!
+}
+
+type Order{
+    id: ID!
+    user_id: ID!
+    address_id: ID!
+    payment_method_id: ID!
+    status: String!
+    total: Float!
+    created_at: String
+    updated_at: String
+
+    user: User @belongsTo
+    address: Address @belongsTo
+    orderItems: [OrderItem] @hasMany
+}
+
+type OrderItem{
+    id: ID!
+    order_id: ID!
+    product_id: ID!
+    quantity: Int!
+    total: Float!
+    created_at: String
+    updated_at: String
+
+    product: Product @belongsTo
 }
