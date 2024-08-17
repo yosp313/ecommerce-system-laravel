@@ -34,6 +34,6 @@ class Order extends Model
 
     public function paymentMethod()
     {
-        return $this->belongsTo(PaymentMethod::class);
+        return $this->belongsTo(PaymentMethod::class, 'payment_method_id', 'id');
     }
 }
