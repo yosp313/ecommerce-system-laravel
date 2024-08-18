@@ -36,6 +36,7 @@ final readonly class CreateOrder
                     'order_id' => $order->id,
                     'product_id' => $item->product_id,
                     'quantity' => $item->quantity,
+                    'total' => $item->quantity * $item->product->price,
                 ]);
             }
 

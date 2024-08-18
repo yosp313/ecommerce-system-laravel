@@ -15,6 +15,8 @@ class Order extends Model
         'payment_method_id',
         'status',
         'total',
+        'created_at',
+        'updated_at',
     ];
 
     public function user()
