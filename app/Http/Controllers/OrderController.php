@@ -35,7 +35,7 @@ class OrderController extends Controller
             $orders->where("id", $order_id);
         }
 
-        $orders = $orders->with(["address", "paymentMethod", "orderItems", "orderItems.product:id,name,price", "user"])->simplePaginate(10);
+        $orders = $orders->with(["address", "paymentMethod", "orderItems", "orderItems.product:id,name,price"])->simplePaginate(10);
 
         return response()->json([
             "data" => [

@@ -10,6 +10,8 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Support\Facades\Auth;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
+/* The CreateOrder class in PHP creates a new order based on the provided arguments and updates product
+stock accordingly. */
 final readonly class CreateOrder
 {
     /** @param  array{}  $args */
@@ -40,6 +42,11 @@ final readonly class CreateOrder
             //deduct the quantity of the product from the stock
             foreach ($cart->items as $item) {
                 $product = Product::find($item->product_id);
+
+                if($product->stock < $item->quantity){
+                    throw new \Exception('Product out of stock');
+                }
+
                 $product->stock = $product->stock - $item->quantity;
                 $product->save();
             }

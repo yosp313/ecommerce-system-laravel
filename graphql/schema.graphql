@@ -46,6 +46,10 @@ type Mutation{
         payment_method_id: ID! @rules(apply: ["required"]),
         cart_id: ID! @rules(apply: ["required", "exists:carts,id"])
     ): Order @field(resolver: "App\\GraphQL\\Mutations\\CreateOrder") @guard
+
+    completeOrder(
+        order_id: ID! @rules(apply: ["required", "exists:orders,id"])
+    ): Order @field(resolver: "App\\GraphQL\\Mutations\\CompleteOrder") @guard
 }
 
 type Category{
