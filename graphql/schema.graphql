@@ -50,6 +50,11 @@ type Mutation{
     completeOrder(
         order_id: ID! @rules(apply: ["required", "exists:orders,id"])
     ): Order @field(resolver: "App\\GraphQL\\Mutations\\CompleteOrder") @guard
+
+    createPaymentMethod(
+        type: String! @rules(apply: ["required", "string", "max:255"]),
+        last_four: String! @rules(apply: ["required", "string", "max:4"]),
+    ): PaymentMethod @field(resolver: "App\\GraphQL\\Mutations\\CreatePaymentMethod") @guard
 }
 
 type Category{
@@ -165,4 +170,15 @@ type OrderItem{
     updated_at: String
 
     product: Product @belongsTo
+}
+
+type PaymentMethod{
+    id: ID!
+    user_id: ID!
+    type: String!
+    last_four: String!
+    created_at: String
+    updated_at: String
+
+    user: User @belongsTo
 }
