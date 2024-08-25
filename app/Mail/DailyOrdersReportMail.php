@@ -18,7 +18,7 @@ class DailyOrdersReportMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public string $fileName,public string $totalOrders,public string $totalSales)
+    public function __construct(public string $fileName, public string $totalOrders, public string $totalSales)
     {
         //
     }
@@ -53,6 +53,5 @@ class DailyOrdersReportMail extends Mailable
         return [
             Attachment::fromPath(storage_path('app/' . $this->fileName))->as('daily_orders_report.csv'),
         ];
-
     }
 }
